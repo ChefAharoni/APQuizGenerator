@@ -21,7 +21,7 @@ A modern, serverless quiz application that generates programming questions and p
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/quiz-generator.git
+git clone https://github.com/ChefAharoni/APQuizGenerator.git
 cd quiz-generator
 ```
 
