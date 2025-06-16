@@ -139,6 +139,59 @@
         </div>
       </div>
 
+      <!-- Bitwise Shifting Practice Section -->
+      <div
+        id="bitwise-section"
+        class="max-w-2xl mx-auto bg-yellow-50 border-2 border-yellow-300 rounded-lg shadow-lg p-6 mt-8 hidden"
+      >
+        <h2 class="text-2xl font-bold text-yellow-800 mb-2">
+          Bitwise Shifting Practice
+        </h2>
+        <p class="text-yellow-700 mb-4">
+          Practice multiplying or dividing numbers using only bitwise shift
+          operators. Enter two shift expressions that add up to the required
+          value. Answers are shown after each submission. Click 'New Question'
+          to try another!
+        </p>
+        <div
+          id="bitwise-question"
+          class="mb-4 font-mono text-lg text-gray-800"
+        ></div>
+        <form id="bitwise-form" class="mb-4 flex flex-col gap-2">
+          <input
+            type="text"
+            id="bitwise-input-1"
+            class="px-4 py-2 border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            placeholder="First shift expression (e.g., a<<3)"
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            id="bitwise-input-2"
+            class="px-4 py-2 border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            placeholder="Second shift expression (e.g., a<<1)"
+            autocomplete="off"
+          />
+          <button
+            type="submit"
+            id="bitwise-submit"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 mt-2"
+          >
+            Submit
+          </button>
+        </form>
+        <div
+          id="bitwise-answer"
+          class="text-lg font-semibold text-green-700 mb-2"
+        ></div>
+        <button
+          id="bitwise-new-question"
+          class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-semibold py-2 px-6 rounded-lg transition duration-200"
+        >
+          New Question
+        </button>
+      </div>
+
       <!-- Results Container -->
       <div
         id="results-container"
