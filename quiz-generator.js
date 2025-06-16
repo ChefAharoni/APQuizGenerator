@@ -67,14 +67,28 @@ class QuizGenerator {
       const arraySize = this.getRandomInt(5, 10);
       const offset = this.getRandomInt(1, arraySize - 1);
       const array = Array.from({ length: arraySize }, (_, i) => i + 1);
+      // Generate random variable names for array and pointer
+      const varNames = [
+        "arr",
+        "nums",
+        "values",
+        "data",
+        "list",
+        "sequence",
+        "buffer",
+        "elements",
+      ];
+      const ptrNames = ["p", "ptr", "q", "pointer", "it", "ref"];
+      const arrayVar = this.getRandomArrayElement(varNames);
+      const ptrVar = this.getRandomArrayElement(ptrNames);
       questions.push({
         type: "short_answer",
         text: "What is the output of the following code?",
-        code: `int arr[] = {${array.join(", ")}};
-int *p = arr;
-printf("%d", *(p + ${offset}));`,
+        code: `int ${arrayVar}[] = {${array.join(", ")}};
+int *${ptrVar} = ${arrayVar};
+printf("%d", *(${ptrVar} + ${offset}));`,
         answer: String(array[offset]),
-        explanation: `p + ${offset} moves the pointer ${offset} elements forward, and * dereferences it to get the value ${array[offset]}`,
+        explanation: `${ptrVar} + ${offset} moves the pointer ${offset} elements forward, and * dereferences it to get the value ${array[offset]}`,
       });
     }
 

@@ -23,9 +23,40 @@ class QuizApp {
     this.newQuizButton = document.getElementById("new-quiz-button");
     this.currentQuestionSpan = document.getElementById("current-question");
     this.questionNumberSpan = document.getElementById("question-number");
+    this.bitwiseSection = document.getElementById("bitwise-section");
+    this.bitwiseQuestion = document.getElementById("bitwise-question");
+    this.bitwiseForm = document.getElementById("bitwise-form");
+    this.bitwiseInput1 = document.getElementById("bitwise-input-1");
+    this.bitwiseInput2 = document.getElementById("bitwise-input-2");
+    this.bitwiseAnswer = document.getElementById("bitwise-answer");
+    this.bitwiseNewQuestion = document.getElementById("bitwise-new-question");
 
     // Bind event listeners
     this.bindEventListeners();
+
+    // Add a button to show Bitwise Shifting Practice (add to nav or top)
+    let bitwiseNavBtn = document.getElementById("bitwise-nav-btn");
+    if (!bitwiseNavBtn) {
+      bitwiseNavBtn = document.createElement("button");
+      bitwiseNavBtn.id = "bitwise-nav-btn";
+      bitwiseNavBtn.textContent = "Bitwise Shifting Practice";
+      bitwiseNavBtn.className =
+        "ml-4 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-semibold py-2 px-4 rounded-lg transition duration-200";
+      document.querySelector("nav .flex").appendChild(bitwiseNavBtn);
+    }
+    bitwiseNavBtn.addEventListener("click", () => this.showBitwiseSection());
+
+    if (this.bitwiseForm) {
+      this.bitwiseForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        this.checkBitwiseAnswer();
+      });
+    }
+    if (this.bitwiseNewQuestion) {
+      this.bitwiseNewQuestion.addEventListener("click", () =>
+        this.generateBitwiseQuestion()
+      );
+    }
   }
 
   bindEventListeners() {
@@ -204,6 +235,72 @@ class QuizApp {
   showQuizSelection() {
     this.resultsContainer.classList.add("hidden");
     this.quizSelectionContainer.classList.remove("hidden");
+  }
+
+  showBitwiseSection() {
+    this.quizSelectionContainer.classList.add("hidden");
+    this.quizContainer.classList.add("hidden");
+    this.resultsContainer.classList.add("hidden");
+    this.bitwiseSection.classList.remove("hidden");
+    this.generateBitwiseQuestion();
+  }
+
+  generateBitwiseQuestion() {
+    // Random variable name
+    const varNames = ["a", "b", "x", "num", "val", "data"];
+    const varName = varNames[Math.floor(Math.random() * varNames.length)];
+    // Random multiply-by value (between 3 and 20, not a power of 2)
+    let multiplier;
+    do {
+      multiplier = Math.floor(Math.random() * 18) + 3;
+    } while ((multiplier & (multiplier - 1)) === 0); // skip powers of 2
+    // Find two shifts that sum to multiplier (largest first)
+    let shifts = [];
+    for (let i = 4; i >= 1; i--) {
+      for (let j = i - 1; j >= 0; j--) {
+        if ((1 << i) + (1 << j) === multiplier) {
+          shifts = [i, j];
+          break;
+        }
+      }
+      if (shifts.length) break;
+    }
+    if (!shifts.length) {
+      // fallback: 8+2=10, 16+4=20, etc.
+      if (multiplier === 10) shifts = [3, 1];
+      else if (multiplier === 12) shifts = [3, 2];
+      else if (multiplier === 18) shifts = [4, 1];
+      else shifts = [Math.floor(Math.log2(multiplier)), 0];
+    }
+    this._bitwiseVarName = varName;
+    this._bitwiseMultiplier = multiplier;
+    this._bitwiseShifts = shifts;
+    this.bitwiseQuestion.innerHTML = `Fill in the blanks to multiply <span class="font-bold">${varName}</span> by <span class="font-bold">${multiplier}</span> using only bitshift operators.<br>Enter two shift expressions (e.g., <span class='font-mono'>${varName}<<3</span>) that add up to the result. <br><span class='text-sm text-yellow-700'>Hint: Use two shifts and addition. The larger shift must be first.</span><br><br><pre class='bg-gray-100 p-2 rounded'>int ${varName} = ...;
+${varName} = _____ + _____;</pre>`;
+    this.bitwiseInput1.value = "";
+    this.bitwiseInput2.value = "";
+    this.bitwiseAnswer.textContent = "";
+  }
+
+  checkBitwiseAnswer() {
+    const v = this._bitwiseVarName;
+    const s1 = this._bitwiseShifts[0];
+    const s2 = this._bitwiseShifts[1];
+    const expected1 = `${v}<<${s1}`;
+    const expected2 = `${v}<<${s2}`;
+    const user1 = this.bitwiseInput1.value.replace(/\s+/g, "");
+    const user2 = this.bitwiseInput2.value.replace(/\s+/g, "");
+    let correct =
+      (user1 === expected1 && user2 === expected2) ||
+      (user1 === expected2 && user2 === expected1);
+    if (correct) {
+      this.bitwiseAnswer.textContent = `✅ Correct! ${v} * ${this._bitwiseMultiplier} = (${expected1}) + (${expected2})`;
+      this.bitwiseAnswer.className =
+        "text-lg font-semibold text-green-700 mb-2";
+    } else {
+      this.bitwiseAnswer.textContent = `❌ Not quite. The correct answer is: ${v} = ${expected1} + ${expected2}`;
+      this.bitwiseAnswer.className = "text-lg font-semibold text-red-700 mb-2";
+    }
   }
 }
 
