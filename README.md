@@ -1,5 +1,7 @@
 # Quiz Generator
 
+[![Deploy to GitHub Pages](https://github.com/ChefAharoni/APQuizGenerator/actions/workflows/deploy.yml/badge.svg)](https://github.com/ChefAharoni/APQuizGenerator/actions/workflows/deploy.yml)
+
 A modern, serverless quiz application that generates programming questions and provides immediate feedback. The application is designed to be hosted on GitHub Pages and requires no server-side processing.
 
 ## Features
