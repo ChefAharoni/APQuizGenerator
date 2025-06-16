@@ -162,6 +162,36 @@
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-md mt-8 py-6">
+      <div class="container mx-auto px-4">
+        <div class="text-center text-gray-600">
+          <p>
+            © <span id="current-year"></span>
+            <a
+              href="https://github.com/ChefAharoni"
+              class="text-blue-500 hover:text-blue-600"
+              >@ChefAharoni</a
+            >
+          </p>
+          <p class="mt-2">
+            <a
+              href="https://github.com/ChefAharoni/APQuizGenerator"
+              class="text-blue-500 hover:text-blue-600"
+            >
+              Contribute to this project on GitHub
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Set current year in footer
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+    </script>
     <script src="quiz-generator.js"></script>
     <script src="app.js"></script>
   </body>
