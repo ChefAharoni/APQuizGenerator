@@ -21,6 +21,8 @@ class QuizApp {
     this.scoreDisplay = document.getElementById("score");
     this.timeDisplay = document.getElementById("time");
     this.newQuizButton = document.getElementById("new-quiz-button");
+    this.currentQuestionSpan = document.getElementById("current-question");
+    this.questionNumberSpan = document.getElementById("question-number");
 
     // Bind event listeners
     this.bindEventListeners();
@@ -75,6 +77,14 @@ class QuizApp {
     // Restore user's previous answer if exists
     this.answerInput.value = this.userAnswers[this.currentQuestionIndex];
 
+    // Update question number in UI
+    if (this.currentQuestionSpan) {
+      this.currentQuestionSpan.textContent = this.currentQuestionIndex + 1;
+    }
+    if (this.questionNumberSpan) {
+      this.questionNumberSpan.textContent = this.currentQuestionIndex + 1;
+    }
+
     // Update navigation buttons
     this.updateNavigationButtons();
   }
@@ -114,6 +124,10 @@ class QuizApp {
     const progress =
       ((this.currentQuestionIndex + 1) / this.currentQuiz.length) * 100;
     this.progressBar.style.width = `${progress}%`;
+    // Also update the current question number in the progress bar
+    if (this.currentQuestionSpan) {
+      this.currentQuestionSpan.textContent = this.currentQuestionIndex + 1;
+    }
   }
 
   submitQuiz() {
