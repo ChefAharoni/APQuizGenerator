@@ -1,0 +1,85 @@
+/* Custom styles beyond Tailwind */
+
+/* Code block styling */
+#code-block {
+  font-family: "Fira Code", "Consolas", monospace;
+  line-height: 1.5;
+  tab-size: 4;
+}
+
+/* Question transitions */
+#question-container {
+  transition: opacity 0.3s ease-in-out;
+}
+
+#question-container.fade-out {
+  opacity: 0;
+}
+
+#question-container.fade-in {
+  opacity: 1;
+}
+
+/* Answer input styling */
+#answer-input input {
+  font-family: "Fira Code", "Consolas", monospace;
+}
+
+/* Results styling */
+.answer-review {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.answer-review.correct {
+  border-left-color: #10b981;
+}
+
+.answer-review.incorrect {
+  border-left-color: #ef4444;
+}
+
+/* Quiz type button hover effects */
+.quiz-type-btn {
+  transform: translateY(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.quiz-type-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Progress bar animation */
+#progress-bar {
+  transition: width 0.3s ease-in-out;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  #code-block {
+    font-size: 0.875rem;
+  }
+}
