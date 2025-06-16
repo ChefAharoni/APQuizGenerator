@@ -24,10 +24,10 @@ class QuizGenerator {
       type: "short_answer",
       text: "Evaluate the expression `sizeof(struct s1)`",
       code: `struct s1 { 
-    long l;    // 8 bytes
-    char c;    // 1 byte
-    int i;     // 4 bytes
-    short s;   // 2 bytes
+    long l;
+    char c;
+    int i;
+    short s;
 };`,
       answer: "24",
       explanation:
