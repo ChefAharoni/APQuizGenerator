@@ -275,8 +275,10 @@ class QuizApp {
     this._bitwiseVarName = varName;
     this._bitwiseMultiplier = multiplier;
     this._bitwiseShifts = shifts;
-    this.bitwiseQuestion.innerHTML = `Fill in the blanks to multiply <span class="font-bold">${varName}</span> by <span class="font-bold">${multiplier}</span> using only bitshift operators.<br>Enter two shift expressions (e.g., <span class='font-mono'>${varName}<<3</span>) that add up to the result. <br><span class='text-sm text-yellow-700'>Hint: Use two shifts and addition. The larger shift must be first.</span><br><br><pre class='bg-gray-100 p-2 rounded'>int ${varName} = ...;
-${varName} = _____ + _____;</pre>`;
+    // Pick a random value for the variable (between 2 and 10)
+    const varValue = Math.floor(Math.random() * 9) + 2;
+    this._bitwiseVarValue = varValue;
+    this.bitwiseQuestion.innerHTML = `Fill in the blanks to multiply <span class="font-bold">${varName}</span> by <span class="font-bold">${multiplier}</span> using only bitshift operators.<br>Enter two shift expressions (e.g., <span class='font-mono'>${varName}<<3</span>) that add up to the result. <br><span class='text-sm text-yellow-700'>Hint: Use two shifts and addition. The larger shift must be first.</span><br><br><pre class='bg-gray-100 p-2 rounded'>int ${varName} = ${varValue};\n${varName} = _____ + _____;</pre>`;
     this.bitwiseInput1.value = "";
     this.bitwiseInput2.value = "";
     this.bitwiseAnswer.textContent = "";
