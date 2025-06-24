@@ -5,6 +5,7 @@ class QuizGenerator {
       "data-structures": this.generateDataStructuresQuestions,
       algorithms: this.generateAlgorithmsQuestions,
       memory: this.generateMemoryQuestions,
+      "valgrind-getopt": this.generateValgrindGetoptQuestions,
     };
   }
 
@@ -321,6 +322,146 @@ int result = x ${operation} y;`,
 } __attribute__((aligned(${alignment})));`,
         answer: String(alignedSize),
         explanation: `The structure is padded to the next multiple of ${alignment} bytes`,
+      });
+    }
+
+    return this.shuffleArray(questions);
+  }
+
+  generateValgrindGetoptQuestions() {
+    const questions = [];
+    const numQuestions = 10;
+
+    // Template 1: GetOpt usage
+    const getoptLoops = [
+      {
+        code: `int opt;
+while ((opt = getopt(argc, argv, "ab:")) != -1) {
+    switch (opt) {
+        case 'a':
+            printf("A\n");
+            break;
+        case 'b':
+            printf("B: %s\n", optarg);
+            break;
+        default:
+            printf("?\n");
+    }
+}
+printf("%d\n", optind);`,
+        answer: "index of first non-option argument",
+        explanation:
+          "optind is set to the index of the first non-option argument after getopt finishes parsing.",
+      },
+      {
+        code: `int opt;
+while ((opt = getopt(argc, argv, "f:")) != -1) {
+    switch (opt) {
+        case 'f':
+            printf("File: %s\n", optarg);
+            break;
+        default:
+            printf("?\n");
+    }
+}
+printf("%s\n", optarg);`,
+        answer: "last option argument",
+        explanation:
+          "optarg points to the argument of the last option processed.",
+      },
+    ];
+    for (let i = 0; i < numQuestions / 3; i++) {
+      const loop = this.getRandomArrayElement(getoptLoops);
+      questions.push({
+        type: "short_answer",
+        text: "What does the following getopt loop print for optind/optarg?",
+        code: loop.code,
+        answer: loop.answer,
+        explanation: loop.explanation,
+      });
+    }
+
+    // Template 2: stat struct fields
+    const statFields = [
+      {
+        code: `struct stat st;
+stat("file.txt", &st);
+printf("%ld\n", st.st_size);`,
+        answer: "file size in bytes",
+        explanation: "st_size gives the size of the file in bytes.",
+      },
+      {
+        code: `struct stat st;
+stat("file.txt", &st);
+printf("%o\n", st.st_mode);`,
+        answer: "file mode (permissions)",
+        explanation: "st_mode encodes the file type and permissions.",
+      },
+      {
+        code: `struct stat st;
+stat("file.txt", &st);
+printf("%ld\n", st.st_mtime);`,
+        answer: "last modification time",
+        explanation: "st_mtime is the last modification time of the file.",
+      },
+    ];
+    for (let i = 0; i < numQuestions / 3; i++) {
+      const field = this.getRandomArrayElement(statFields);
+      questions.push({
+        type: "short_answer",
+        text: "What does the following stat field represent?",
+        code: field.code,
+        answer: field.answer,
+        explanation: field.explanation,
+      });
+    }
+
+    // Template 3: Valgrind errors
+    const valgrindScenarios = [
+      {
+        code: `int *p = malloc(sizeof(int));
+*p = 5;
+printf("%d\n", *p);
+free(p);`,
+        answer: "No error",
+        explanation: "Memory is allocated, used, and freed correctly.",
+      },
+      {
+        code: `int *p = malloc(sizeof(int));
+printf("%d\n", *p);
+free(p);`,
+        answer: "Conditional jump or move depends on uninitialized value(s)",
+        explanation: "*p is used before being initialized.",
+      },
+      {
+        code: `int *p = malloc(sizeof(int));
+free(p);
+*p = 10;`,
+        answer: "Invalid write of size 4",
+        explanation: "Writing to memory after it has been freed.",
+      },
+      {
+        code: `int *p = malloc(sizeof(int));
+free(p);
+free(p);`,
+        answer: "Invalid free() / delete / delete[] / realloc()",
+        explanation: "Double free of the same pointer.",
+      },
+      {
+        code: `int arr[5];
+printf("%d\n", arr[5]);`,
+        answer: "Invalid read of size 4",
+        explanation: "Reading out of bounds of the array.",
+      },
+    ];
+    for (let i = 0; i < numQuestions / 3; i++) {
+      const scenario = this.getRandomArrayElement(valgrindScenarios);
+      questions.push({
+        type: "short_answer",
+        text: "What Valgrind error (if any) would this code produce?",
+        code: scenario.code,
+        answer: scenario.answer,
+        explanation: scenario.explanation,
       });
     }
 
